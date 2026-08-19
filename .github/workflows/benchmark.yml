@@ -1,0 +1,59 @@
+name: Benchmark Scoring
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 02:00 UTC (after NOAA data is available)
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'data/forecasts/**'
+
+permissions:
+  contents: write
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Score forecasts
+        run: python benchmark.py
+
+      - name: Commit results
+        run: |
+          git config user.name "Benchmark Bot"
+          git config user.email "bot@flarient.com"
+          git add data/results/
+          git diff --cached --quiet || git commit -m "Benchmark scores update [skip ci]"
+          git push || echo "Nothing to push"
+
+      - name: Update summary
+        run: |
+          if [ -f data/results/leaderboard.json ]; then
+            echo "## Space Weather Forecast Benchmark" >> ${{ github.step_summary }}
+            echo "" >> ${{ github.step_summary }}
+            echo "### Latest Leaderboard" >> ${{ github.step_summary }}
+            echo "" >> ${{ github.step_summary }}
+            echo "| Rank | Predictor | Type | Avg Score | Forecasts |" >> ${{ github.step_summary }}
+            echo "|------|-----------|------|-----------|-----------|" >> ${{ github.step_summary }}
+            python -c "
+          import json
+          with open('data/results/leaderboard.json') as f:
+              data = json.load(f)
+          for i, entry in enumerate(data.get('leaderboard', [])[:10]):
+              print(f'| {i+1} | {entry["name"]} | {entry["type"]} | {entry.get("average_score", 0)} | {entry["count"]} |')
+          " >> ${{ github.step_summary }}
+          fi
