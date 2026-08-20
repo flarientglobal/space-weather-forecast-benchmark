@@ -40,20 +40,5 @@ jobs:
           git diff --cached --quiet || git commit -m "Benchmark scores update [skip ci]"
           git push || echo "Nothing to push"
 
-      - name: Update summary
-        run: |
-          if [ -f data/results/leaderboard.json ]; then
-            echo "## Space Weather Forecast Benchmark" >> ${{ github.step_summary }}
-            echo "" >> ${{ github.step_summary }}
-            echo "### Latest Leaderboard" >> ${{ github.step_summary }}
-            echo "" >> ${{ github.step_summary }}
-            echo "| Rank | Predictor | Type | Avg Score | Forecasts |" >> ${{ github.step_summary }}
-            echo "|------|-----------|------|-----------|-----------|" >> ${{ github.step_summary }}
-            python -c "
-          import json
-          with open('data/results/leaderboard.json') as f:
-              data = json.load(f)
-          for i, entry in enumerate(data.get('leaderboard', [])[:10]):
-              print(f'| {i+1} | {entry["name"]} | {entry["type"]} | {entry.get("average_score", 0)} | {entry["count"]} |')
-          " >> ${{ github.step_summary }}
-          fi
+      # Step summary is now written by benchmark.py directly via GITHUB_STEP_SUMMARY
+      # (avoids fragile shell quoting in a python -c one-liner)
