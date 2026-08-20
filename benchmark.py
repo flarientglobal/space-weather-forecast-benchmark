@@ -318,6 +318,25 @@ def score_all_forecasts():
     for i, entry in enumerate(sorted_leaderboard[:5]):
         log(f"    {i+1}. {entry['name']} ({entry['type']}): {entry.get('average_score', 0)} avg")
 
+    # Write GitHub Actions step summary (if running in CI)
+    summary_file = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_file and sorted_leaderboard:
+        with open(summary_file, "a") as sf:
+            sf.write("## Space Weather Forecast Benchmark
+
+")
+            sf.write("### Latest Leaderboard
+
+")
+            sf.write("| Rank | Predictor | Type | Avg Score | Forecasts |
+")
+            sf.write("|------|-----------|------|-----------|----------|
+")
+            for i, entry in enumerate(sorted_leaderboard[:10]):
+                sf.write(f"| {i+1} | {entry['name']} | {entry['type']} | {entry.get('average_score', 0)} | {entry['count']} |
+")
+        log("  Step summary written")
+
 
 def main():
     log("=== Space Weather Forecast Benchmark ===")
