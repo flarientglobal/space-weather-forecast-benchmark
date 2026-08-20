@@ -1,0 +1,24 @@
+{
+  "leaderboard": [
+    {
+      "name": "Sample Predictor",
+      "type": "human",
+      "total_score": 100,
+      "count": 1,
+      "scores": {
+        "kp": [],
+        "flare": [
+          100
+        ]
+      },
+      "average_score": 100.0,
+      "avg_flare": 100.0
+    }
+  ],
+  "updated_at": "2026-08-20T04:10:53.835943+00:00",
+  "total_forecasts": 1,
+  "date_range": {
+    "start": "2026-08-20",
+    "end": "2026-08-20"
+  }
+}

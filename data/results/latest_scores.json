@@ -1,0 +1,16 @@
+{
+  "results": [
+    {
+      "predictor_name": "Sample Predictor",
+      "predictor_type": "human",
+      "target_date": "2026-08-20",
+      "scores": {
+        "flare": {
+          "correct": true,
+          "score": 100
+        }
+      }
+    }
+  ],
+  "scored_at": "2026-08-20T04:10:53.835803+00:00"
+}
