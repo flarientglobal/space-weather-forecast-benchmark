@@ -6,11 +6,11 @@
       "target_date": "2026-08-20",
       "scores": {
         "flare": {
-          "correct": true,
-          "score": 100
+          "correct": false,
+          "score": 50
         }
       }
     }
   ],
-  "scored_at": "2026-08-21T04:22:29.566947+00:00"
+  "scored_at": "2026-08-22T04:06:39.774198+00:00"
 }

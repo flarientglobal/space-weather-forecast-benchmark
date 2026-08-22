@@ -3,19 +3,19 @@
     {
       "name": "Sample Predictor",
       "type": "human",
-      "total_score": 100,
+      "total_score": 50,
       "count": 1,
       "scores": {
         "kp": [],
         "flare": [
-          100
+          50
         ]
       },
-      "average_score": 100.0,
-      "avg_flare": 100.0
+      "average_score": 50.0,
+      "avg_flare": 50.0
     }
   ],
-  "updated_at": "2026-08-21T04:22:29.567105+00:00",
+  "updated_at": "2026-08-22T04:06:39.774410+00:00",
   "total_forecasts": 1,
   "date_range": {
     "start": "2026-08-20",
